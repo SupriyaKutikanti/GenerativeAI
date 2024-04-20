@@ -1,0 +1,51 @@
+import random
+
+# Sample text data (replace with your own dataset)
+text_data = """
+Two roads diverged in a yellow wood,
+And sorry I could not travel both
+And be one traveler, long I stood
+And looked down one as far as I could
+To where it bent in the undergrowth;
+
+Then took the other, as just as fair,
+And having perhaps the better claim,
+Because it was grassy and wanted wear;
+Though as for that the passing there
+Had worn them really about the same,
+
+And both that morning equally lay
+In leaves no step had trodden black.
+Oh, I kept the first for another day!
+Yet knowing how way leads on to way,
+I doubted if I should ever come back.
+
+I shall be telling this with a sigh
+Somewhere ages and ages hence:
+Two roads diverged in a wood, and I—
+I took the one less traveled by,
+And that has made all the difference.
+"""
+
+# Function to generate a poem using Markov chains
+def generate_poem(text, length=50):
+    words = text.split()
+    word_pairs = [(words[i], words[i + 1]) for i in range(len(words) - 1)]
+    word_dict = {}
+    for word1, word2 in word_pairs:
+        if word1 in word_dict:
+            word_dict[word1].append(word2)
+        else:
+            word_dict[word1] = [word2]
+
+    word1 = random.choice(words)
+    poem = [word1]
+    for _ in range(length - 1):
+        word2 = random.choice(word_dict[word1])
+        word1 = word2
+        poem.append(word2)
+    return ' '.join(poem)
+
+# Generate a poem
+generated_poem = generate_poem(text_data, length=50)
+print(generated_poem)
